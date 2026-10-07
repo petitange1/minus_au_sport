@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0c">
+  <link rel="apple-touch-icon" href="https://fav.farm/⚡">
+  <title>Strathclyde Performance ⚡</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            volt: {
+              300: '#e5ff66',
+              400: '#d9ff33',
+              500: '#ccff00', // Volt Lime dynamique
+              600: '#a3cc00',
+            },
+            pro: {
+              bg: '#0a0a0c',
+              card: '#141417',
+              input: '#1d1d22',
+              border: 'rgba(255,255,255,0.08)',
+              subtle: '#26262e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input {
+      user-select: auto !important;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      background-color: #0a0a0c;
+      color: #f3f4f6;
+      padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .glass-effect {
+      background: rgba(20, 20, 23, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .card-pro {
+      background: linear-gradient(160deg, #16161a 0%, #111114 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .pulse-volt {
+      box-shadow: 0 0 20px rgba(204, 255, 0, 0.35);
+    }
+  </style>
+</head>
+<body class="bg-pro-bg text-gray-100 min-h-screen flex flex-col selection:bg-volt-500/30">
+
+  <!-- ==================== ECRAN PRINCIPAL ==================== -->
+  <div id="home-screen" class="w-full max-w-md mx-auto px-5 pt-12 pb-8 min-h-screen flex flex-col">
+    
+    <!-- En-tête -->
+    <header class="mb-6 flex items-center justify-between">
+      <div>
+        <span class="text-xs font-black tracking-widest text-volt-500 uppercase">Go, Fight, Win</span>
+        <h1 class="text-3xl font-black tracking-tight text-white uppercase italic">Strathclyde Gym<span class="text-volt-500">
+      </div>
+      <div class="w-10 h-10 rounded-2xl bg-pro-card border border-pro-border flex items-center justify-center text-volt-500 font-bold text-sm shadow-inner">
+        ⚡
+      </div>
+    </header>
+
+    <!-- Carte Mot d'encouragement -->
+    <div class="card-pro rounded-3xl p-5 mb-8 relative overflow-hidden">
+      <div class="absolute -right-4 -bottom-4 text-volt-500/5 text-8xl font-black italic select-none">
+        GO
+      </div>
+      <div class="relative z-10">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-[10px] font-black uppercase tracking-widest text-volt-500 bg-volt-500/10 px-2.5 py-1 rounded-lg border border-volt-500/20">Motivation du jour</span>
+          <button onclick="changeLoveNote()" class="text-gray-400 hover:text-volt-500 active:scale-90 transition p-1 cursor-pointer">
+            <i class="fa-solid fa-arrows-rotate text-xs"></i>
+          </button>
+        </div>
+        <p id="love-note-text" class="text-sm font-semibold text-gray-200 leading-snug tracking-wide">
+          "Donne tout sur chaque répétition aujourd'hui. Super fière de ton investissement !"
+        </p>
+      </div>
+    </div>
+
+    <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 px-1">Programmes de la semaine</h2>
+    
+    <!-- Liste des Séances -->
+    <div class="space-y-3">
+      <button onclick="openWorkout(1)" class="w-full card-pro rounded-2xl p-5 flex items-center justify-between active:scale-[0.98] transition cursor-pointer group">
+        <div class="text-left">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-bold text-volt-500 uppercase tracking-widest">Lundi</span>
+            <span class="text-gray-600 text-[10px]">•</span>
+            <span class="text-[10px] font-medium text-gray-400">J1</span>
+          </div>
+          <h3 class="font-black text-white text-lg tracking-tight mt-0.5 group-hover:text-volt-500 transition-colors">Bas du Corps</h3>
+          <p class="text-gray-400 text-xs mt-0.5">Focus Fessiers & Ischios</p>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-pro-input border border-pro-border flex items-center justify-center text-gray-400 group-hover:text-volt-500 group-hover:border-volt-500/40 transition">
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </div>
+      </button>
+
+      <button onclick="openWorkout(2)" class="w-full card-pro rounded-2xl p-5 flex items-center justify-between active:scale-[0.98] transition cursor-pointer group">
+        <div class="text-left">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-bold text-volt-500 uppercase tracking-widest">Mercredi</span>
+            <span class="text-gray-600 text-[10px]">•</span>
+            <span class="text-[10px] font-medium text-gray-400">J2</span>
+          </div>
+          <h3 class="font-black text-white text-lg tracking-tight mt-0.5 group-hover:text-volt-500 transition-colors">Haut & Abdos</h3>
+          <p class="text-gray-400 text-xs mt-0.5">Posture, Épaules & Sangle abdominale</p>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-pro-input border border-pro-border flex items-center justify-center text-gray-400 group-hover:text-volt-500 group-hover:border-volt-500/40 transition">
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </div>
+      </button>
+
+      <button onclick="openWorkout(3)" class="w-full card-pro rounded-2xl p-5 flex items-center justify-between active:scale-[0.98] transition cursor-pointer group">
+        <div class="text-left">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-bold text-volt-500 uppercase tracking-widest">Vendredi</span>
+            <span class="text-gray-600 text-[10px]">•</span>
+            <span class="text-[10px] font-medium text-gray-400">J3</span>
+          </div>
+          <h3 class="font-black text-white text-lg tracking-tight mt-0.5 group-hover:text-volt-500 transition-colors">Quads & Galbe</h3>
+          <p class="text-gray-400 text-xs mt-0.5">Focus Quadriceps & Rappel Fessiers</p>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-pro-input border border-pro-border flex items-center justify-center text-gray-400 group-hover:text-volt-500 group-hover:border-volt-500/40 transition">
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </div>
+      </button>
+    </div>
+
+    <div class="mt-auto pt-8 flex justify-center">
+      <button onclick="toggleRulesModal()" class="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-volt-500 flex items-center gap-2 active:opacity-70 transition cursor-pointer">
+        <i class="fa-solid fa-bolt text-volt-500"></i> Principes de Surcharge
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ==================== ECRAN DE LA SÉANCE ==================== -->
+  <div id="workout-screen" class="hidden w-full max-w-md mx-auto min-h-screen flex-col bg-pro-bg relative pb-36">
+    
+    <!-- En-tête Sticky avec barre de progression fixe -->
+    <header class="sticky top-0 z-40 glass-effect pt-8 pb-3 px-4">
+      <div class="flex items-center justify-between mb-3">
+        <button onclick="closeWorkout()" class="text-white p-2 -ml-2 flex items-center gap-2 active:opacity-70 transition cursor-pointer">
+          <i class="fa-solid fa-chevron-left text-sm text-volt-500"></i>
+          <span class="font-bold text-xs uppercase tracking-wider">Retour</span>
+        </button>
+        <h2 id="workout-title" class="font-black text-sm text-white uppercase tracking-tight truncate px-2">Jour 1</h2>
+        <button onclick="resetDayProgress()" class="text-gray-400 hover:text-red-400 p-2 -mr-2 active:scale-90 transition cursor-pointer" title="Réinitialiser">
+          <i class="fa-solid fa-rotate-left text-xs"></i>
+        </button>
+      </div>
+
+      <!-- Barre de progression -->
+      <div class="flex items-center gap-3">
+        <div class="flex-grow bg-pro-input rounded-full h-1.5 overflow-hidden border border-pro-border">
+          <div id="progress-bar-fill" class="bg-volt-500 h-1.5 rounded-full transition-all duration-500 w-0"></div>
+        </div>
+        <span id="progress-percent" class="text-xs font-mono font-bold text-volt-500 w-9 text-right">0%</span>
+      </div>
+    </header>
+
+    <!-- Exercices -->
+    <main id="workout-content" class="px-4 pt-5 space-y-5">
+      <!-- Injecté par JS -->
+    </main>
+
+  </div>
+
+  <!-- ==================== CHRONOMÈTRE DE REPOS ==================== -->
+  <div id="timer-bar" class="fixed bottom-6 left-4 right-4 max-w-sm mx-auto glass-effect border border-pro-border rounded-2xl p-3.5 shadow-2xl z-50 transition-transform duration-300 transform translate-y-0 hidden">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div id="timer-icon-bg" class="w-11 h-11 rounded-xl bg-volt-500/10 border border-volt-500/30 text-volt-500 flex items-center justify-center font-bold">
+          <i class="fa-solid fa-stopwatch text-lg"></i>
+        </div>
+        <div>
+          <span class="text-[9px] text-gray-400 uppercase tracking-widest block font-bold">Repos Récupération</span>
+          <span id="timer-display" class="text-2xl font-black font-mono tracking-tight text-white leading-none">01:30</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <button onclick="setTimerPreset(60)" class="px-2.5 py-2 bg-pro-input hover:bg-pro-subtle text-gray-300 text-xs font-bold rounded-lg transition active:scale-90 cursor-pointer">60s</button>
+        <button onclick="setTimerPreset(90)" class="px-2.5 py-2 bg-volt-500/10 text-volt-500 border border-volt-500/30 text-xs font-bold rounded-lg transition active:scale-90 cursor-pointer">90s</button>
+        <button id="timer-toggle-btn" onclick="toggleTimer()" class="ml-1 w-11 h-11 bg-volt-500 text-black font-bold rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition cursor-pointer">
+          <i id="timer-toggle-icon" class="fa-solid fa-play text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL REGLES ==================== -->
+  <div id="rules-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex-col items-center justify-end p-4 pb-8">
+    <div class="card-pro border border-pro-border rounded-3xl max-w-sm w-full p-6 shadow-2xl relative">
+      <button onclick="toggleRulesModal()" class="absolute top-4 right-4 w-8 h-8 bg-pro-input rounded-full flex items-center justify-center text-gray-400 active:scale-90 cursor-pointer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 class="font-black text-lg text-white uppercase italic tracking-wider mb-4 flex items-center gap-2">
+        <span class="text-volt-500">⚡</span> RÈGLES D'INTENSITÉ
+      </h3>
+      
+      <div class="space-y-3 text-xs text-gray-300">
+        <div class="bg-pro-input/60 p-3.5 rounded-xl border border-pro-border">
+          <span class="font-bold text-volt-500 uppercase tracking-wider block mb-0.5">1. Surcharge Progressive</span>
+          Dès que tu valides toutes tes répétitions facilement, augmente la charge de +1 à +2 kg la semaine suivante.
+        </div>
+        <div class="bg-pro-input/60 p-3.5 rounded-xl border border-pro-border">
+          <span class="font-bold text-volt-500 uppercase tracking-wider block mb-0.5">2. Temps de Repos</span>
+          Prends 1 min 30 à 2 min entre les séries lourdes pour réengager toute ta force musculaire.
+        </div>
+        <div class="bg-pro-input/60 p-3.5 rounded-xl border border-pro-border">
+          <span class="font-bold text-volt-500 uppercase tracking-wider block mb-0.5">3. Exécution & Régularité</span>
+          Garde la même structure 6 à 8 semaines. La régularité et la bonne forme sont clés.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LOGIQUE JAVASCRIPT ==================== -->
+  <script>
+    const loveNotes = [
+      "Donne tout sur chaque répétition aujourd'hui. Super fier de toi minuscule ! ⚡",
+      "Focus et régularité petit monstre. Tu construis des résultats solides séance après séance.",
+      "Posture parfaite et engagement maximal. Bonne séance mon coeur ! 💪",
+      "T'as réussi à te motiver, t'as déjà fait le plus gros effort de la séance minus",
+      "Lâche rien, t'es trop belle et en forme !",
+      "N'oublie pas de boire beaucoup d'eau kiwi !",
+      "En 2027 on fera du sport ensemble ;)",
+      "Chaque effort compte. Vas-y à fond aujourd'hui !",
+      "Dernière ligne droite de la semaine. On termine en puissance !"
+    ];
+
+    const workoutData = {
+      1: {
+        title: "LUNDI • FESSIERS & ISCHIOS",
+        exercises: [
+          { id: "j1_ex1", name: "Hip Thrust", target: "4 séries × 10-12 rép", tip: "Marque 1s de pause en contraction maximale en haut.", sets: 4 },
+          { id: "j1_ex2", name: "Presse à Cuisses", target: "3 séries × 10-12 rép", tip: "Pieds placés haut et écartés sur le plateau.", sets: 3 },
+          { id: "j1_ex3", name: "Fentes arrière aux Haltères", target: "3 séries × 10-12 rép", tip: "Penche légèrement le buste en avant pour cibler le fessier.", sets: 3 },
+          { id: "j1_ex4", name: "Leg Curl", target: "3 séries × 12 rép", tip: "Contrôle la descente (phase excentrique) sur 3 sec.", sets: 3 },
+          { id: "j1_ex5", name: "Machine Abducteurs", target: "3 séries × 15-20 rép", tip: "Buste légèrement penché vers l'avant.", sets: 3 }
+        ]
+      },
+      2: {
+        title: "MERCREDI • HAUT DU CORPS & ABDOS",
+        exercises: [
+          { id: "j2_ex1", name: "Tirage Poitrine Poulie Haute", target: "3 séries × 10-12 rép", tip: "Redresse le buste et tire la barre vers le haut de la poitrine.", sets: 3 },
+          { id: "j2_ex2", name: "Développé Assis Haltères", target: "3 séries × 10-12 rép", tip: "Développe au-dessus de la tête sans bloquer sec les coudes.", sets: 3 },
+          { id: "j2_ex3", name: "Rowing Assis Poulie Basse", target: "3 séries × 10-12 rép", tip: "Tire vers le nombril en serrant bien les omoplates.", sets: 3 },
+          { id: "j2_ex4", name: "Développé Couché Haltères", target: "3 séries × 12 rép", tip: "Maintain un gainer solide tout au long de la série.", sets: 3 },
+          { id: "j2_ex5", name: "Élévations Latérales", target: "3 séries × 12-15 rép", tip: "Charges légères pour cibler précisément le faisceau latéral.", sets: 3 },
+          { id: "j2_ex6", name: "Circuit Abdos", target: "3 Tours (12 rép + 45s)", tip: "Relevés de genoux puis Planche gainage. 1 min repos.", sets: 3 }
+        ]
+      },
+      3: {
+        title: "VENDREDI • QUADS & GALBE",
+        exercises: [
+          { id: "j3_ex1", name: "Goblet Squat", target: "3 séries × 10-12 rép", tip: "Buste droit, descends jusqu'aux cuisses parallèles au sol.", sets: 3 },
+          { id: "j3_ex2", name: "Soulevé de Terre Jambes Tendues (RDL)", target: "4 séries × 10 rép", tip: "Dos plat, pousse les hanches vers l'arrière.", sets: 4 },
+          { id: "j3_ex3", name: "Squat Bulgare", target: "3 séries × 8-10 rép / jambe", tip: "Pied arrière stabilisé sur banc.", sets: 3 },
+          { id: "j3_ex4", name: "Extension Mollets", target: "3 séries × 15 rép", tip: "Marque 1 sec de contraction en haut du mouvement.", sets: 3 },
+          { id: "j3_ex5", name: "Abducteurs + Lombaires", target: "3 séries × 15-20 rép", tip: "Enchaîne la machine abducteurs et le banc à 45°.", sets: 3 }
+        ]
+      }
+    };
+
+    let currentDay = 1;
+    let timerInterval = null;
+    let timerSecondsLeft = 90;
+    let timerTotalSeconds = 90;
+    let isTimerRunning = false;
+    let loveNoteIndex = 0;
+
+    function getStoredData() {
+      try {
+        return JSON.parse(localStorage.getItem('strathclyde_gym_pro') || '{}');
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveStoredData(data) {
+      try {
+        localStorage.setItem('strathclyde_gym_pro', JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function openWorkout(dayNum) {
+      currentDay = dayNum;
+      document.getElementById('home-screen').classList.add('hidden');
+      document.getElementById('workout-screen').classList.remove('hidden');
+      document.getElementById('workout-screen').classList.add('flex');
+      document.getElementById('timer-bar').classList.remove('hidden');
+      document.getElementById('workout-title').innerText = workoutData[dayNum].title;
+      
+      window.scrollTo(0, 0);
+      renderWorkout();
+      updateProgressBar();
+    }
+
+    function closeWorkout() {
+      document.getElementById('workout-screen').classList.add('hidden');
+      document.getElementById('workout-screen').classList.remove('flex');
+      document.getElementById('timer-bar').classList.add('hidden');
+      document.getElementById('home-screen').classList.remove('hidden');
+    }
+
+    function updateLoveNote() {
+      document.getElementById('love-note-text').innerText = `"${loveNotes[loveNoteIndex % loveNotes.length]}"`;
+    }
+
+    function changeLoveNote() {
+      loveNoteIndex++;
+      updateLoveNote();
+    }
+
+    function toggleRulesModal() {
+      const modal = document.getElementById('rules-modal');
+      modal.classList.toggle('hidden');
+      modal.classList.toggle('flex');
+    }
+
+    function renderWorkout() {
+      const container = document.getElementById('workout-content');
+      const data = workoutData[currentDay];
+      const stored = getStoredData();
+      let html = '';
+
+      data.exercises.forEach((ex, exIdx) => {
+        html += `
+          <div class="card-pro rounded-2xl p-4 shadow-lg relative border border-pro-border">
+            <div class="flex justify-between items-start mb-2">
+              <div class="pr-6">
+                <h3 class="font-black text-white text-base tracking-tight uppercase">${ex.name}</h3>
+                <span class="text-xs text-volt-500 font-bold tracking-wide">${ex.target}</span>
+              </div>
+              <div class="w-7 h-7 bg-pro-input rounded-lg flex items-center justify-center text-xs font-mono font-bold text-gray-400 border border-pro-border absolute top-4 right-4">
+                #${exIdx + 1}
+              </div>
+            </div>
+
+            <div class="text-[11px] text-gray-300 bg-pro-input/80 p-2.5 rounded-xl flex items-start gap-2 mb-3 border border-pro-border">
+              <i class="fa-solid fa-circle-info text-volt-500 text-xs mt-0.5 shrink-0"></i>
+              <span class="leading-relaxed font-medium">${ex.tip}</span>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex px-1 text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">
+                <div class="w-10">Série</div>
+                <div class="flex-1 text-center">Charge (kg)</div>
+                <div class="flex-1 text-center">Répétitions</div>
+                <div class="w-10"></div>
+              </div>
+        `;
+
+        for (let s = 1; s <= ex.sets; s++) {
+          const setKey = `${ex.id}_s${s}`;
+          const setData = stored[setKey] || { weight: '', reps: '', done: false };
+
+          /* Pavé numérique iOS automatique : inputmode="decimal" & inputmode="numeric" */
+          html += `
+            <div class="flex items-center gap-2 bg-pro-input/50 p-1.5 rounded-xl border ${setData.done ? 'border-volt-500/50 bg-volt-500/10' : 'border-pro-border'} transition">
+              <div class="w-10 font-mono font-bold text-xs ${setData.done ? 'text-volt-500' : 'text-gray-400'} text-center">S${s}</div>
+              
+              <div class="flex-1">
+                <input type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="kg" 
+                  value="${setData.weight}" 
+                  onchange="saveSetData('${setKey}', 'weight', this.value)"
+                  class="w-full bg-pro-bg border border-pro-border rounded-lg py-1.5 px-2 text-center text-sm font-bold text-white focus:outline-none focus:border-volt-500 transition">
+              </div>
+              
+              <div class="flex-1">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" placeholder="réps" 
+                  value="${setData.reps}" 
+                  onchange="saveSetData('${setKey}', 'reps', this.value)"
+                  class="w-full bg-pro-bg border border-pro-border rounded-lg py-1.5 px-2 text-center text-sm font-bold text-white focus:outline-none focus:border-volt-500 transition">
+              </div>
+              
+              <div class="w-10 flex justify-end">
+                <button onclick="toggleSetDone('${setKey}')" 
+                  class="w-8 h-8 rounded-lg flex items-center justify-center transition active:scale-90 cursor-pointer ${setData.done ? 'bg-volt-500 text-black shadow-md font-bold' : 'bg-pro-bg text-gray-600 border border-pro-border'}">
+                  <i class="fa-solid fa-check text-xs"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+        html += `</div></div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function saveSetData(setKey, field, value) {
+      const stored = getStoredData();
+      if (!stored[setKey]) stored[setKey] = { weight: '', reps: '', done: false };
+      stored[setKey][field] = value;
+      saveStoredData(stored);
+    }
+
+    function toggleSetDone(setKey) {
+      const stored = getStoredData();
+      if (!stored[setKey]) stored[setKey] = { weight: '', reps: '', done: false };
+      
+      stored[setKey].done = !stored[setKey].done;
+      saveStoredData(stored);
+      
+      if (stored[setKey].done) triggerRestTimer();
+      
+      renderWorkout();
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      const stored = getStoredData();
+      const currentExercises = workoutData[currentDay].exercises;
+      let totalSets = 0; let completedSets = 0;
+
+      currentExercises.forEach(ex => {
+        for (let s = 1; s <= ex.sets; s++) {
+          totalSets++;
+          if (stored[`${ex.id}_s${s}`]?.done) completedSets++;
+        }
+      });
+
+      const percentage = totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
+      document.getElementById('progress-percent').innerText = `${percentage}%`;
+      document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
+    }
+
+    function resetDayProgress() {
+      if (confirm("Réinitialiser les validations de cette séance ?")) {
+        const stored = getStoredData();
+        workoutData[currentDay].exercises.forEach(ex => {
+          for (let s = 1; s <= ex.sets; s++) {
+            if (stored[`${ex.id}_s${s}`]) stored[`${ex.id}_s${s}`].done = false;
+          }
+        });
+        saveStoredData(stored);
+        renderWorkout();
+        updateProgressBar();
+      }
+    }
+
+    function playBeep() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+      } catch (e) {}
+    }
+
+    function updateTimerUI() {
+      const m = Math.floor(timerSecondsLeft / 60); const s = timerSecondsLeft % 60;
+      document.getElementById('timer-display').innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+      
+      const icon = document.getElementById('timer-toggle-icon');
+      const iconBg = document.getElementById('timer-icon-bg');
+      if (isTimerRunning) {
+        icon.className = "fa-solid fa-pause text-sm";
+        iconBg.classList.add("pulse-volt");
+      } else {
+        icon.className = "fa-solid fa-play text-sm";
+        iconBg.classList.remove("pulse-volt");
+      }
+    }
+
+    function startTimer() {
+      if (isTimerRunning) return;
+      isTimerRunning = true; updateTimerUI();
+      timerInterval = setInterval(() => {
+        if (timerSecondsLeft > 0) {
+          timerSecondsLeft--; updateTimerUI();
+        } else {
+          stopTimer(); playBeep();
+          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      isTimerRunning = false;
+      if (timerInterval) clearInterval(timerInterval);
+      updateTimerUI();
+    }
+
+    function toggleTimer() {
+      if (isTimerRunning) stopTimer();
+      else {
+        if (timerSecondsLeft <= 0) timerSecondsLeft = timerTotalSeconds;
+        startTimer();
+      }
+    }
+
+    function setTimerPreset(sec) {
+      stopTimer(); timerTotalSeconds = sec; timerSecondsLeft = sec;
+      updateTimerUI(); startTimer();
+    }
+
+    function triggerRestTimer() { setTimerPreset(timerTotalSeconds || 90); }
+
+    window.onload = function() {
+      updateLoveNote();
+      updateTimerUI();
+    };
+  </script>
+</body>
+</html>
