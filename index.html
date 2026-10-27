@@ -9,10 +9,11 @@
   <link rel="apple-touch-icon" href="https://fav.farm/⚡">
   <title>Strathclyde Performance ⚡</title>
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS & FontAwesome -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <script>
     tailwind.config = {
@@ -82,13 +83,13 @@
         <span class="text-xs font-black tracking-widest text-volt-500 uppercase">Go, Fight, Win</span>
         <h1 class="text-3xl font-black tracking-tight text-white uppercase italic">Strathclyde Gym<span class="text-volt-500">.</span></h1>
       </div>
-      <div class="w-10 h-10 rounded-2xl bg-pro-card border border-pro-border flex items-center justify-center text-volt-500 font-bold text-sm shadow-inner">
-        ⚡
-      </div>
+      <button onclick="openStats()" class="w-10 h-10 rounded-2xl bg-pro-card border border-pro-border flex items-center justify-center text-volt-500 font-bold text-sm shadow-inner active:scale-90 transition cursor-pointer" title="Statistiques">
+        <i class="fa-solid fa-chart-line text-base"></i>
+      </button>
     </header>
 
     <!-- Carte Mot d'encouragement -->
-    <div class="card-pro rounded-3xl p-5 mb-8 relative overflow-hidden">
+    <div class="card-pro rounded-3xl p-5 mb-5 relative overflow-hidden">
       <div class="absolute -right-4 -bottom-4 text-volt-500/5 text-8xl font-black italic select-none">
         GO
       </div>
@@ -104,6 +105,20 @@
         </p>
       </div>
     </div>
+
+    <!-- Raccourci vers l'onglet Statistiques -->
+    <button onclick="openStats()" class="w-full card-pro rounded-2xl p-4 mb-6 flex items-center justify-between border-volt-500/30 bg-volt-500/5 active:scale-[0.98] transition cursor-pointer">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-volt-500/10 text-volt-500 border border-volt-500/20 flex items-center justify-center">
+          <i class="fa-solid fa-fire text-base"></i>
+        </div>
+        <div class="text-left">
+          <h3 class="font-bold text-white text-sm">Tableau de Bord & Stats</h3>
+          <p class="text-xs text-gray-400">Progression, Séries & Charges max</p>
+        </div>
+      </div>
+      <i class="fa-solid fa-chevron-right text-xs text-volt-500"></i>
+    </button>
 
     <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 px-1">Programmes de la semaine</h2>
     
@@ -160,6 +175,91 @@
         <i class="fa-solid fa-bolt text-volt-500"></i> Principes de Surcharge
       </button>
     </div>
+  </div>
+
+
+  <!-- ==================== ECRAN STATISTIQUES ==================== -->
+  <div id="stats-screen" class="hidden w-full max-w-md mx-auto min-h-screen flex-col bg-pro-bg relative pb-12">
+    
+    <header class="sticky top-0 z-40 glass-effect pt-8 pb-3 px-4 flex items-center justify-between">
+      <button onclick="closeStats()" class="text-white p-2 -ml-2 flex items-center gap-2 active:opacity-70 transition cursor-pointer">
+        <i class="fa-solid fa-chevron-left text-sm text-volt-500"></i>
+        <span class="font-bold text-xs uppercase tracking-wider">Retour</span>
+      </button>
+      <h2 class="font-black text-sm text-white uppercase tracking-tight">Performances & Stats</h2>
+      <div class="w-6"></div>
+    </header>
+
+    <main class="px-4 pt-5 space-y-5">
+      
+      <!-- Cartes KPIs principaux -->
+      <div class="grid grid-cols-2 gap-3">
+        <div class="card-pro p-4 rounded-2xl border border-pro-border">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Séries Valides</span>
+            <i class="fa-solid fa-circle-check text-volt-500 text-xs"></i>
+          </div>
+          <span id="stat-total-sets" class="text-2xl font-black text-volt-500 font-mono">0</span>
+          <span class="text-[10px] text-gray-500 block mt-0.5">séries effectuées</span>
+        </div>
+
+        <div class="card-pro p-4 rounded-2xl border border-pro-border">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Volume Déplacé</span>
+            <i class="fa-solid fa-weight-hanging text-volt-500 text-xs"></i>
+          </div>
+          <span id="stat-total-volume" class="text-2xl font-black text-white font-mono">0</span>
+          <span class="text-[10px] text-gray-500 block mt-0.5">lbs / kg cumulés</span>
+        </div>
+
+        <div class="card-pro p-4 rounded-2xl border border-pro-border">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Séances Complètes</span>
+            <i class="fa-solid fa-trophy text-volt-500 text-xs"></i>
+          </div>
+          <span id="stat-completed-workouts" class="text-2xl font-black text-white font-mono">0</span>
+          <span class="text-[10px] text-gray-500 block mt-0.5">séances à 100%</span>
+        </div>
+
+        <div class="card-pro p-4 rounded-2xl border border-pro-border">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Complétion Moy.</span>
+            <i class="fa-solid fa-chart-pie text-volt-500 text-xs"></i>
+          </div>
+          <span id="stat-completion-rate" class="text-2xl font-black text-volt-500 font-mono">0%</span>
+          <span class="text-[10px] text-gray-500 block mt-0.5">sur la semaine</span>
+        </div>
+      </div>
+
+      <!-- Section Records Personnels (Best Weights) -->
+      <div class="card-pro p-4 rounded-2xl border border-pro-border">
+        <h3 class="font-black text-xs text-white uppercase tracking-wider mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-award text-volt-500"></i> Records Personnels (Best Loads)
+        </h3>
+        <div id="records-container" class="space-y-2 text-xs">
+          <!-- Injecté par JS -->
+        </div>
+      </div>
+
+      <!-- Graphique 1 : Volume Cumulé par Jour -->
+      <div class="card-pro p-4 rounded-2xl border border-pro-border">
+        <h3 class="font-black text-xs text-white uppercase tracking-wider mb-1">Volume d'entraînement (lbs/kg)</h3>
+        <p class="text-[10px] text-gray-400 mb-3">Poids × Répétitions par jour de séance</p>
+        <div class="w-full h-44">
+          <canvas id="chart-volume"></canvas>
+        </div>
+      </div>
+
+      <!-- Graphique 2 : Répartition des séries valides par jour -->
+      <div class="card-pro p-4 rounded-2xl border border-pro-border">
+        <h3 class="font-black text-xs text-white uppercase tracking-wider mb-1">Assiduité par séance</h3>
+        <p class="text-[10px] text-gray-400 mb-3">Séries cochées par journée de programme</p>
+        <div class="w-full h-44">
+          <canvas id="chart-sets-day"></canvas>
+        </div>
+      </div>
+
+    </main>
   </div>
 
 
@@ -302,6 +402,8 @@
     let timerTotalSeconds = 90;
     let isTimerRunning = false;
     let loveNoteIndex = 0;
+    let chartVolumeInstance = null;
+    let chartSetsDayInstance = null;
 
     function getStoredData() {
       try {
@@ -335,6 +437,143 @@
       document.getElementById('workout-screen').classList.remove('flex');
       document.getElementById('timer-bar').classList.add('hidden');
       document.getElementById('home-screen').classList.remove('hidden');
+    }
+
+    function openStats() {
+      document.getElementById('home-screen').classList.add('hidden');
+      document.getElementById('stats-screen').classList.remove('hidden');
+      document.getElementById('stats-screen').classList.add('flex');
+      window.scrollTo(0, 0);
+      renderStats();
+    }
+
+    function closeStats() {
+      document.getElementById('stats-screen').classList.add('hidden');
+      document.getElementById('stats-screen').classList.remove('flex');
+      document.getElementById('home-screen').classList.remove('hidden');
+    }
+
+    function renderStats() {
+      const stored = getStoredData();
+      let totalDoneSets = 0;
+      let totalVolume = 0;
+      let daySetsCount = { 1: 0, 2: 0, 3: 0 };
+      let dayTotalSetsCount = { 1: 0, 2: 0, 3: 0 };
+      let dayVolume = { 1: 0, 2: 0, 3: 0 };
+      let records = {};
+
+      // Calcul des métriques réelles à partir du localStorage
+      [1, 2, 3].forEach(dayId => {
+        const exercises = workoutData[dayId].exercises;
+        exercises.forEach(ex => {
+          for (let s = 1; s <= ex.sets; s++) {
+            dayTotalSetsCount[dayId]++;
+            const key = `${ex.id}_s${s}`;
+            const item = stored[key];
+            if (item && item.done) {
+              totalDoneSets++;
+              daySetsCount[dayId]++;
+              const w = parseFloat(item.weight) || 0;
+              const r = parseFloat(item.reps) || 0;
+              const setVol = w * r;
+              dayVolume[dayId] += setVol;
+              totalVolume += setVol;
+
+              if (!records[ex.name] || w > records[ex.name].weight) {
+                records[ex.name] = { weight: w, unit: ex.unit || 'lbs' };
+              }
+            }
+          }
+        });
+      });
+
+      // Calcul des cartes KPIs
+      document.getElementById('stat-total-sets').innerText = totalDoneSets;
+      document.getElementById('stat-total-volume').innerText = totalVolume > 0 ? Math.round(totalVolume).toLocaleString('fr-FR') : '0';
+
+      let fullWorkouts = 0;
+      [1, 2, 3].forEach(dayId => {
+        if (dayTotalSetsCount[dayId] > 0 && daySetsCount[dayId] === dayTotalSetsCount[dayId]) {
+          fullWorkouts++;
+        }
+      });
+      document.getElementById('stat-completed-workouts').innerText = fullWorkouts;
+
+      const totalPossibleSets = dayTotalSetsCount[1] + dayTotalSetsCount[2] + dayTotalSetsCount[3];
+      const rate = totalPossibleSets > 0 ? Math.round((totalDoneSets / totalPossibleSets) * 100) : 0;
+      document.getElementById('stat-completion-rate').innerText = `${rate}%`;
+
+      // Rendu des records personnels
+      const recContainer = document.getElementById('records-container');
+      const recKeys = Object.keys(records);
+      if (recKeys.length === 0) {
+        recContainer.innerHTML = `<p class="text-gray-500 italic text-[11px]">Renseigne tes charges et coche tes séries pour afficher tes PRs !</p>`;
+      } else {
+        let recHtml = '';
+        recKeys.forEach(name => {
+          recHtml += `
+            <div class="flex justify-between items-center bg-pro-input/50 p-2 rounded-xl border border-pro-border">
+              <span class="font-bold text-gray-200">${name}</span>
+              <span class="font-mono font-black text-volt-500">${records[name].weight} ${records[name].unit}</span>
+            </div>
+          `;
+        });
+        recContainer.innerHTML = recHtml;
+      }
+
+      // Initialisation Chart 1: Volume
+      const ctxVol = document.getElementById('chart-volume').getContext('2d');
+      if (chartVolumeInstance) chartVolumeInstance.destroy();
+      chartVolumeInstance = new Chart(ctxVol, {
+        type: 'line',
+        data: {
+          labels: ['J1 (Fessiers)', 'J2 (Haut)', 'J3 (Quads)'],
+          datasets: [{
+            label: 'Volume (poids × réps)',
+            data: [dayVolume[1], dayVolume[2], dayVolume[3]],
+            borderColor: '#ccff00',
+            backgroundColor: 'rgba(204, 255, 0, 0.15)',
+            borderWidth: 3,
+            pointBackgroundColor: '#ccff00',
+            tension: 0.35,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#888', font: { size: 10 } } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#888', font: { size: 10 } } }
+          }
+        }
+      });
+
+      // Initialisation Chart 2: Séries valides
+      const ctxSets = document.getElementById('chart-sets-day').getContext('2d');
+      if (chartSetsDayInstance) chartSetsDayInstance.destroy();
+      chartSetsDayInstance = new Chart(ctxSets, {
+        type: 'bar',
+        data: {
+          labels: ['J1 Lundi', 'J2 Mercredi', 'J3 Vendredi'],
+          datasets: [{
+            label: 'Séries Valides',
+            data: [daySetsCount[1], daySetsCount[2], daySetsCount[3]],
+            backgroundColor: '#ccff00',
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#888', font: { size: 10 } } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#888', font: { size: 10 }, stepSize: 2 } }
+          }
+        }
+      });
     }
 
     function updateLoveNote() {
